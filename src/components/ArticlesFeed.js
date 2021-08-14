@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, FlatList } from "react-native";
+import { StyleSheet, View, Text, FlatList } from "react-native";
 import ArticleCard from "./ArticleCard";
 import ign from "../api/ign";
 
@@ -30,7 +30,23 @@ const ArticlesFeed = () => {
         data={results}
         keyExtractor={(result) => result.contentId}
         renderItem={({ item }) => {
-          return <ArticleCard result={item} />;
+          function limit(string = "", limit = 0) {
+            return string.substring(0, limit);
+          }
+
+          const date = limit(`${item.metadata.publishDate}`, 10);
+          return (
+            <View>
+              <View style={{marginLeft: 2, marginTop: 10}}>
+                <Text
+                  style={{ fontWeight: "900", fontSize: 12, color: "#CD4645" }}
+                >
+                  {date}
+                </Text>
+              </View>
+              <ArticleCard result={item} />
+            </View>
+          );
         }}
       />
     </View>

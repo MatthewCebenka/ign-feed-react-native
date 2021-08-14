@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, FlatList} from "react-native";
+import { StyleSheet, View, Text, FlatList } from "react-native";
 import VideoCard from "./VideoCard";
-import ign from '../api/ign';
+import ign from "../api/ign";
 
 const VideosFeed = () => {
   const [results, setResults] = useState([]);
@@ -21,6 +21,8 @@ const VideosFeed = () => {
 
   useEffect(() => query(), []);
 
+  // 'Hello
+
   return (
     <View style={styles.root}>
       <FlatList
@@ -28,7 +30,24 @@ const VideosFeed = () => {
         data={results}
         keyExtractor={(result) => result.contentId}
         renderItem={({ item }) => {
-          return <VideoCard result={item} />;
+          
+          function limit(string = "", limit = 0) {
+            return string.substring(0, limit);
+          }
+
+          const date = limit(`${item.metadata.publishDate}`, 10);
+          return (
+            <View>
+              <View style={{marginLeft: 2, marginTop: 10}}>
+                <Text
+                  style={{ fontWeight: "900", fontSize: 12, color: "#CD4645" }}
+                >
+                  {date}
+                </Text>
+              </View>
+              <VideoCard result={item} />
+            </View>
+          );
         }}
       />
     </View>
@@ -45,7 +64,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "white",
     paddingLeft: 10,
-    paddingRight: 10
+    paddingRight: 10,
   },
 });
 
